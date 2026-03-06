@@ -140,7 +140,7 @@ Este sistema implementa una arquitectura **MVC (Modelo-Vista-Controlador)** dond
 **![general_view](./docs/inegi.png)**
 
 ### Pagina de la FIFA
-**![general_view](./docs/fifa.pngs)**
+**![general_view](./docs/fifa.png)**
 **![general_view](./docs/fifaa.png)**
 
 ### Codigo de la NASA
