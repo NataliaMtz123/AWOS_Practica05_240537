@@ -1,0 +1,40 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title= title
+    link(rel="stylesheet", href="/style.css")
+    //- CDN de Boxicons para los iconos decorativos
+    link(href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet')
+  body
+    canvas#starCanvas
+    
+    .container
+      header
+        h1 Portal Espacial - Práctica 05
+        p.student-info= student
+      
+      main.dashboard
+        //- Tarjeta NASA: Icono de planeta
+        section.card
+          i.bx.bxs-planet.icon-neon
+          h2 NASA
+          p Exploración del universo y monitoreo de asteroides.
+          a.btn(href="/dashboard/nasa") Explorar NASA
+        
+        //- Tarjeta FIFA: Icono de fútbol
+        section.card
+          i.bx.bx-football.icon-neon
+          h2 FIFA
+          p Estadísticas mundiales y consulta de ligas.
+          a.btn(href="/dashboard/fifa") Consultar FIFA
+          
+        //- Tarjeta INEGI: Icono de gráfica
+        section.card
+          i.bx.bxs-bar-chart-alt-2.icon-neon
+          h2 INEGI
+          p Análisis de indicadores económicos de México.
+          a.btn(href="/dashboard/inegi") Ver Datos INEGI
+
+    script(src="/stars.js")

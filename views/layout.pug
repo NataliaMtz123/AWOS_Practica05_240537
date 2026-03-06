@@ -1,0 +1,24 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= title || 'Portal Espacial - Dashboards'
+    link(rel="stylesheet", href="/style.css")
+    link(href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet')
+    //- CDN de Chart.js para la Fase 05
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+  body
+    canvas#starCanvas
+    .container
+      header
+        h1= title
+        p.student-info= student
+        nav
+          a.btn(href="/") 🏠 Volver al Inicio
+      
+      block content
+
+    script(src="/stars.js")
+    //- Script específico para gráficas (se cargará solo si existe)
+    block scripts
