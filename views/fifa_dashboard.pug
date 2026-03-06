@@ -1,0 +1,73 @@
+extends layout
+
+block content
+  main.dashboard-container
+    header.section-header(style="text-align: center; margin-bottom: 30px;")
+      h1(style="color: #00ff88; text-shadow: 0 0 10px #00ff88;") ⚽ FIFA World Stats
+      p.student-info Yazmin Ariana - 240235
+
+    //- 🔍 SECCIÓN DE BÚSQUEDA DINÁMICA
+    section.search-section(style="margin-bottom: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;")
+      
+      form(action="/dashboard/fifa" method="GET" style="background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; border: 1px solid #00ff88; display: flex; gap: 10px; align-items: center;")
+        input(type="hidden" name="type" value="league")
+        label(style="color: #fff; font-size: 0.9rem;") 🏆 ID Liga:
+        input(type="text" name="id" placeholder="Ej. 39" style="background: #000; color: #00ff88; border: 1px solid #00ff88; padding: 5px; border-radius: 4px; width: 80px;")
+        button(type="submit" style="background: #00ff88; color: #000; border: none; padding: 5px 15px; border-radius: 4px; font-weight: bold; cursor: pointer;") BUSCAR
+
+      form(action="/dashboard/fifa" method="GET" style="background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; border: 1px solid #00ff88; display: flex; gap: 10px; align-items: center;")
+        input(type="hidden" name="type" value="player")
+        label(style="color: #fff; font-size: 0.9rem;") 👤 Jugador:
+        input(type="text" name="search" placeholder="Ej. Messi" style="background: #000; color: #00ff88; border: 1px solid #00ff88; padding: 5px; border-radius: 4px;")
+        button(type="submit" style="background: #00ff88; color: #000; border: none; padding: 5px 15px; border-radius: 4px; font-weight: bold; cursor: pointer;") FILTRAR
+
+    //- 📊 SECCIÓN DE RESULTADOS DE BÚSQUEDA CORREGIDA
+    if searchResults && searchResults.length > 0
+      section.results-table(style="background: rgba(0,255,136,0.1); border-radius: 15px; padding: 20px; border: 2px solid #00ff88; margin-bottom: 40px;")
+        h3(style="color: #00ff88; margin-bottom: 15px;") 🎯 Resultados encontrados para: #{searchTerm}
+        table(style="width: 100%; border-collapse: collapse; color: #fff;")
+          thead
+            tr(style="border-bottom: 2px solid #00ff88;")
+              th Nombre
+              th País / Equipo
+              th Logo / Foto
+          tbody
+            each res in searchResults
+              tr(style="border-bottom: 1px solid rgba(0,255,136,0.2); text-align: center;")
+                if res.league
+                  //- Desglose para Ligas
+                  td(style="padding: 10px;")= res.league.name
+                  td= res.country.name
+                  td: img(src=res.league.logo width="45" alt="league logo")
+                else if res.player
+                  //- Desglose para Jugadores
+                  td(style="padding: 10px;")= res.player.name
+                  td= (res.statistics && res.statistics[0]) ? res.statistics[0].team.name : 'N/A'
+                  td: img(src=res.player.photo width="45" style="border-radius: 50%;" alt="player photo")
+                else
+                  //- Fallback general
+                  td(style="padding: 10px;")= res.name || 'N/A'
+                  td= res.country || 'N/A'
+                  td: img(src=res.logo width="45" alt="logo")
+
+    //- 📋 TABLA PRINCIPAL (Ligas por defecto)
+    section.data-table(style="background: rgba(0,0,0,0.6); border-radius: 15px; padding: 20px; border: 1px solid #00ff88;")
+      h3(style="color: #00ff88; margin-bottom: 15px;") Ligas de Fútbol Sugeridas
+      table(style="width: 100%; border-collapse: collapse; margin-top: 20px; color: #fff;")
+        thead
+          tr(style="border-bottom: 2px solid #00ff88;")
+            th ID
+            th Logo
+            th Nombre de la Liga
+            th País
+        tbody
+          if leagues && leagues.length > 0
+            each item in leagues
+              tr(style="border-bottom: 1px solid rgba(0,255,136,0.2); text-align: center;")
+                td(style="padding: 15px;")= item.league.id
+                td: img(src=item.league.logo width="40" alt="logo")
+                td= item.league.name
+                td= item.country.name
+          else
+            tr
+              td(colspan="4" style="padding: 20px; text-align: center;") No hay datos disponibles.
