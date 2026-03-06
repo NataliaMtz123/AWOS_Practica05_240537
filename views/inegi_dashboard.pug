@@ -8,29 +8,195 @@ block content
         span  Indicadores INEGI
       p.student-info Ingrid Natalia - 240537
 
+    // ===== SECCIÓN DE BÚSQUEDA =====
     section.search-section
-      form(action="/dashboard/inegi" method="GET")
-        label(for="search") 🆔 Busca un indicador
-        input(type="text" name="search" id="search" placeholder="Ej. 1002000001" required)
-        button(type="submit")
-          i.bx.bx-search
-          span Consultar
+      .card-dynamic(style="background: rgba(132, 204, 22, 0.05); border-color: #84cc16; padding: 25px; margin-bottom: 30px;")
+        form(action="/dashboard/inegi" method="GET" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;")
+          div(style="flex: 1; min-width: 250px;")
+            label(for="search" style="display: block; color: #84cc16; margin-bottom: 8px; font-weight: 600;")
+              i.bx.bx-hash
+              span  ID del Indicador
+            input(type="text" name="search" id="search" placeholder="Ej. 1002000001 (Población), 444609 (INPC)" 
+                  value=searchValue || '' 
+                  style="width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.2); border: 1px solid #84cc16; border-radius: 8px; color: #f1f5f9; font-size: 1rem;")
+          button(type="submit" style="background: #84cc16; color: #0f172a; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 1rem;")
+            i.bx.bx-search
+            span Consultar
 
+    // ===== INDICADORES DESTACADOS (Datos Cualitativos y Cuantitativos) =====
+    section(style="margin-bottom: 30px;")
+      h2(style="color: #84cc16; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;")
+        i.bx.bxs-star
+        span Indicadores Destacados
+      
+      div(style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;")
+        // Tarjeta Población
+        .card-dynamic(style="background: rgba(132, 204, 22, 0.1); border-color: #84cc16; padding: 20px; text-align: center; cursor: pointer;" onclick="buscarIndicador('1002000001')")
+          i.bx.bxs-group(style="font-size: 2.5rem; color: #84cc16; margin-bottom: 10px;")
+          h3(style="color: #84cc16; font-size: 1.1rem; margin-bottom: 10px;") Población Total
+          p(style="font-size: 1.3rem; font-weight: bold; color: #f1f5f9;") 126M
+          p(style="color: #cbd5e1; font-size: 0.85rem;") Censo 2020
+
+        // Tarjeta Inflación
+        .card-dynamic(style="background: rgba(132, 204, 22, 0.1); border-color: #84cc16; padding: 20px; text-align: center; cursor: pointer;" onclick="buscarIndicador('444609')")
+          i.bx.bxs-trending-up(style="font-size: 2.5rem; color: #84cc16; margin-bottom: 10px;")
+          h3(style="color: #84cc16; font-size: 1.1rem; margin-bottom: 10px;") INPC
+          p(style="font-size: 1.3rem; font-weight: bold; color: #f1f5f9;") 3.79%
+          p(style="color: #cbd5e1; font-size: 0.85rem;") Anual
+
+        // Tarjeta PIB
+        .card-dynamic(style="background: rgba(132, 204, 22, 0.1); border-color: #84cc16; padding: 20px; text-align: center; cursor: pointer;" onclick="buscarIndicador('444610')")
+          i.bx.bxs-coin-stack(style="font-size: 2.5rem; color: #84cc16; margin-bottom: 10px;")
+          h3(style="color: #84cc16; font-size: 1.1rem; margin-bottom: 10px;") PIB
+          p(style="font-size: 1.3rem; font-weight: bold; color: #f1f5f9;") +0.9%
+          p(style="color: #cbd5e1; font-size: 0.85rem;") Trimestral
+
+        // Tarjeta Desempleo
+        .card-dynamic(style="background: rgba(132, 204, 22, 0.1); border-color: #84cc16; padding: 20px; text-align: center; cursor: pointer;" onclick="buscarIndicador('444612')")
+          i.bx.bxs-briefcase(style="font-size: 2.5rem; color: #84cc16; margin-bottom: 10px;")
+          h3(style="color: #84cc16; font-size: 1.1rem; margin-bottom: 10px;") Desocupación
+          p(style="font-size: 1.3rem; font-weight: bold; color: #f1f5f9;") 2.6%
+          p(style="color: #cbd5e1; font-size: 0.85rem;") Tasa
+
+    // ===== RESULTADO DE BÚSQUEDA =====
     if indicator
-      section
-        .card-dynamic(style="background: rgba(132, 204, 22, 0.1); border-color: #84cc16;")
-          h2(style="color: #84cc16; display: flex; align-items: center; gap: 10px;")
-            i.bx.bx-check-circle
-            span= indicator.nombre
-          
-          p(style="font-size: 1.3rem; font-weight: 700; margin: 15px 0; color: #84cc16;")= indicator.valor
-          p(style="color: var(--muted-text); margin-bottom: 10px;")
-            strong Fecha:
-            span(style="margin-left: 10px;")= indicator.fecha
+      section(style="margin-bottom: 30px;")
+        .card-dynamic(style="background: rgba(132, 204, 22, 0.15); border-color: #84cc16; padding: 30px;")
+          div(style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;")
+            div(style="flex: 1;")
+              h2(style="color: #84cc16; display: flex; align-items: center; gap: 10px; font-size: 1.5rem; margin-bottom: 15px;")
+                i.bx.bx-check-circle
+                span= indicator.nombre
+              
+              div(style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;")
+                div
+                  p(style="color: #cbd5e1; margin-bottom: 5px;") Valor Actual
+                  p(style="font-size: 2rem; font-weight: 700; color: #84cc16;")= indicator.valor
+                div
+                  p(style="color: #cbd5e1; margin-bottom: 5px;") Fecha
+                  p(style="font-size: 1.2rem; color: #f1f5f9;")= indicator.fecha
+                if indicator.unidad
+                  div
+                    p(style="color: #cbd5e1; margin-bottom: 5px;") Unidad
+                    p(style="font-size: 1.2rem; color: #f1f5f9;")= indicator.unidad
 
+    // ===== GRÁFICA HISTÓRICA =====
     section
-      .chart-container(style="min-height: 450px;")
-        canvas#inegiChart
+      .card-dynamic(style="background: rgba(132, 204, 22, 0.1); border-color: #84cc16; padding: 25px;")
+        h2(style="color: #84cc16; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;")
+          i.bx bx-line-chart
+          span Datos Históricos
+          span(style="font-size: 0.9rem; color: #cbd5e1; margin-left: 10px;") (Últimos 10 períodos)
+        
+        .chart-container(style="min-height: 450px; position: relative;")
+          canvas#inegiChart
+
+    // ===== TABLA DE DATOS HISTÓRICOS =====
+    if historicalData && historicalData.length > 0
+      section(style="margin-top: 30px;")
+        .card-dynamic(style="background: rgba(132, 204, 22, 0.05); border-color: #84cc16; padding: 20px;")
+          h3(style="color: #84cc16; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;")
+            i.bx bxs-table
+            span Datos Históricos Detallados
+          
+          div(style="overflow-x: auto;")
+            table(style="width: 100%; border-collapse: collapse;")
+              thead
+                tr(style="border-bottom: 2px solid #84cc16;")
+                  th(style="padding: 12px; text-align: left; color: #84cc16;") Período
+                  th(style="padding: 12px; text-align: right; color: #84cc16;") Valor
+              tbody
+                each item in historicalData
+                  tr(style="border-bottom: 1px solid rgba(132, 204, 22, 0.2);")
+                    td(style="padding: 10px; color: #cbd5e1;")= item.periodo
+                    td(style="padding: 10px; text-align: right; color: #f1f5f9; font-weight: 600;")= item.valor
 
 block scripts
-  script(src="/charts.js")
+  script(src="https://cdn.jsdelivr.net/npm/chart.js")
+  script.
+    // Variables globales
+    let chart = null;
+    const chartData = !{JSON.stringify(chartData || [])};
+    
+    // Función para buscar indicador desde las tarjetas
+    function buscarIndicador(id) {
+      window.location.href = '/dashboard/inegi?search=' + id;
+    }
+    
+    // Inicializar gráfica cuando cargue la página
+    document.addEventListener('DOMContentLoaded', function() {
+      if (chartData && chartData.length > 0) {
+        crearGrafica(chartData);
+      } else {
+        // Datos de ejemplo si no hay datos reales
+        const datosEjemplo = [
+          { periodo: '2020', valor: 126014024 },
+          { periodo: '2010', valor: 112336538 },
+          { periodo: '2000', valor: 97483312 },
+          { periodo: '1990', valor: 81249645 },
+          { periodo: '1980', valor: 66846833 }
+        ];
+        crearGrafica(datosEjemplo);
+      }
+    });
+    
+    function crearGrafica(datos) {
+      const ctx = document.getElementById('inegiChart').getContext('2d');
+      
+      // Si ya existe una gráfica, destruirla
+      if (chart) {
+        chart.destroy();
+      }
+      
+      // Ordenar datos por período
+      datos.sort((a, b) => a.periodo.localeCompare(b.periodo));
+      
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: datos.map(item => item.periodo),
+          datasets: [{
+            label: 'Valor del Indicador',
+            data: datos.map(item => parseFloat(item.valor.toString().replace(/[^0-9.-]/g, ''))),
+            borderColor: '#84cc16',
+            backgroundColor: 'rgba(132, 204, 22, 0.1)',
+            borderWidth: 3,
+            pointBackgroundColor: '#84cc16',
+            pointBorderColor: '#0f172a',
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                color: '#cbd5e1',
+                font: { size: 14 }
+              }
+            },
+            tooltip: {
+              backgroundColor: '#1e293b',
+              titleColor: '#84cc16',
+              bodyColor: '#f1f5f9',
+              borderColor: '#84cc16',
+              borderWidth: 1
+            }
+          },
+          scales: {
+            y: {
+              grid: { color: 'rgba(132, 204, 22, 0.1)' },
+              ticks: { color: '#cbd5e1' }
+            },
+            x: {
+              grid: { color: 'rgba(132, 204, 22, 0.1)' },
+              ticks: { color: '#cbd5e1' }
+            }
+          }
+        }
+      });
+    }

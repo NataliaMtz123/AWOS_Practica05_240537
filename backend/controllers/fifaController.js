@@ -89,6 +89,54 @@ const searchPlayerData = async (searchName) => {
     }
 };
 
+// Obtener equipos de una liga
+const getTeamsOfLeague = async (leagueId) => {
+    try {
+        console.log(`📡 Obteniendo equipos de liga ${leagueId}...`);
+        const { data } = await axios.get(`${BASE}/teams`, {
+            headers: { 'x-apisports-key': TOKEN },
+            params: { league: leagueId, season: 2023 }
+        });
+        const teams = (data.response && data.response.length > 0) ? data.response : [];
+        console.log(`✅ ${teams.length} equipos obtenidos`);
+        return teams;
+    } catch (err) {
+        console.error("❌ Error en getTeamsOfLeague:", err.message);
+        // Retornar datos de ejemplo si la API falla
+        return [{
+            team: { id: 529, name: "FC Barcelona", logo: "https://media.api-sports.io/football/teams/529.png" },
+            venue: { id: 322, name: "Camp Nou" }
+        },
+        {
+            team: { id: 541, name: "Real Madrid", logo: "https://media.api-sports.io/football/teams/541.png" },
+            venue: { id: 326, name: "Santiago Bernabéu" }
+        }];
+    }
+};
+
+// Obtener jugadores de un equipo
+const getPlayersOfTeam = async (teamId) => {
+    try {
+        console.log(`📡 Obteniendo jugadores del equipo ${teamId}...`);
+        const { data } = await axios.get(`${BASE}/players`, {
+            headers: { 'x-apisports-key': TOKEN },
+            params: { team: teamId, season: 2023 }
+        });
+        const players = (data.response && data.response.length > 0) ? data.response : [];
+        console.log(`✅ ${players.length} jugadores obtenidos`);
+        return players;
+    } catch (err) {
+        console.error("❌ Error en getPlayersOfTeam:", err.message);
+        // Retornar datos de ejemplo si la API falla
+        return [{
+            player: { id: 154, name: "Lionel Messi", photo: "https://media.api-sports.io/football/players/154.png", position: "Forward", nationality: "Argentina" }
+        },
+        {
+            player: { id: 52, name: "Cristiano Ronaldo", photo: "https://media.api-sports.io/football/players/52.png", position: "Forward", nationality: "Portugal" }
+        }];
+    }
+};
+
 // --- ENDPOINTS DINÁMICOS Y ESPECÍFICOS (Fase 03) ---
 
 // Manejador genérico para los 20 endpoints dinámicos del README
@@ -157,4 +205,4 @@ const getStandings = handleGeneric('Standings', 'standings');
 const getFixtures = handleGeneric('Fixtures', 'fixtures');
 const getTopScorers = handleGeneric('TopScorers', 'players/topscorers');
 
-export default { getLeaguesData, searchPlayerData, handleGenericFIFA, getLeagues, getCountries, getVenues, getTeams, getPlayers, getStandings, getFixtures, getTopScorers };
+export default { getLeaguesData, searchPlayerData, getTeamsOfLeague, getPlayersOfTeam, handleGenericFIFA, getLeagues, getCountries, getVenues, getTeams, getPlayers, getStandings, getFixtures, getTopScorers };

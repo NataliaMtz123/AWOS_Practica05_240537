@@ -1,23 +1,25 @@
-// Cambiar require por import
 import express from 'express';
 const router = express.Router();
 import inegiController from '../controllers/inegiController.js';
 
-// --- RUTAS ESPECÍFICAS (Fase 03 y Fase 05) ---
+// --- RUTAS ESPECÍFICAS (Fase 03) ---
 
-// 1. Población (Usada en el Dashboard)
+// Endpoints específicos para datos importantes
 router.get('/poblacion', inegiController.getPoblacion);
-
-// 2. Inflación
 router.get('/inflacion', inegiController.getInflacion);
-
-// 3. Economía (Maneja los indicadores estáticos: pib, desocupacion, etc.)
 router.get('/economia', inegiController.getEconomia);
 
-// --- RUTA DINÁMICA (Cubre los 20 endpoints del README) ---
-// Permite consultar cualquier indicador real por su ID
-// Ejemplo: /api/inegi/indicador/6200205259
-router.get('/indicador/:indicatorId', inegiController.getInegiIndicator);
+// --- RUTA PARA DATOS DEL DASHBOARD (Fase 06) ---
+router.get('/indicador/:id', inegiController.getInegiIndicator);
 
-// Cambiar module.exports por export default
+// --- RUTA PARA GRÁFICAS DEL DASHBOARD ---
+router.get('/charts-data', async (req, res) => {
+  try {
+    const data = await inegiController.getDashboardChartsData();
+    res.json({ success: true, data });
+  } catch (err) {
+    res.json({ success: false, data: [] });
+  }
+});
+
 export default router;

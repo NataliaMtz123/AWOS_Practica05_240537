@@ -35,6 +35,7 @@ import fifaRoutes from './backend/routes/fifaRoutes.js';
 import inegiRoutes from './backend/routes/inegiRoutes.js';
 import nasaRoutes from './backend/routes/nasaRoutes.js';
 import nasaController from './backend/controllers/nasaController.js';
+import fifaController from './backend/controllers/fifaController.js';
 
 // Usar rutas
 app.use('/fifa', fifaRoutes);
@@ -42,8 +43,14 @@ app.use('/inegi', inegiRoutes);
 app.use('/nasa', nasaRoutes);
 
 // Rutas para dashboards
-app.get('/dashboard/fifa', (req, res) => {
-  res.render('fifa_dashboard');
+app.get('/dashboard/fifa', async (req, res) => {
+  try {
+    const leagues = await fifaController.getLeaguesData();
+    res.render('fifa_dashboard', { leagues });
+  } catch (err) {
+    console.error('Error loading FIFA dashboard:', err);
+    res.render('fifa_dashboard', { leagues: [] });
+  }
 });
 
 app.get('/dashboard/inegi', (req, res) => {
@@ -58,6 +65,29 @@ app.get('/dashboard/nasa', async (req, res) => {
   } catch (err) {
     console.error('Error loading NASA dashboard:', err);
     res.render('nasa_dashboard', { apod: null });
+  }
+});
+
+// APIs interactivas para el dashboard FIFA
+app.get('/api/fifa/teams-of-league/:leagueId', async (req, res) => {
+  try {
+    const { leagueId } = req.params;
+    const teams = await fifaController.getTeamsOfLeague(leagueId);
+    res.json({ teams });
+  } catch (err) {
+    console.error('Error en /api/fifa/teams-of-league:', err);
+    res.json({ teams: [] });
+  }
+});
+
+app.get('/api/fifa/players-of-team/:teamId', async (req, res) => {
+  try {
+    const { teamId } = req.params;
+    const players = await fifaController.getPlayersOfTeam(teamId);
+    res.json({ players });
+  } catch (err) {
+    console.error('Error en /api/fifa/players-of-team:', err);
+    res.json({ players: [] });
   }
 });
 

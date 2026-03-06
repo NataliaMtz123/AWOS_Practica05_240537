@@ -92,7 +92,15 @@ const SAMPLE_APOD = {
 
 const getApodData = async (date = null) => {
     try {
-        // Si hay fecha, la agregamos a los parámetros de axios
+        // validar formato YYYY-MM-DD si se proporcionó fecha
+        if (date) {
+            const isoRegex = /^\d{4}-\d{2}-\d{2}$/;
+            if (!isoRegex.test(date)) {
+                console.warn(`⚠️ Fecha inválida ignorada: ${date}`);
+                date = null;
+            }
+        }
+        // Si hay fecha válida, la agregamos a los parámetros de axios
         const params = date ? { date } : {};
 
         // fetchNasa ya agrega la API_KEY automáticamente
