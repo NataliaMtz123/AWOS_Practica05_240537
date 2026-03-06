@@ -1,6 +1,7 @@
-const express = require('express');
+// Cambiar require por import
+import express from 'express';
 const router = express.Router();
-const nasaController = require('../controllers/nasaController');
+import nasaController from '../controllers/nasaController.js';
 
 // --- RUTAS ESPECÍFICAS (Fase 03 y Fase 05) ---
 
@@ -24,4 +25,5 @@ router.get('/tech', nasaController.getTechProjects);
 // Captura cualquier sub-ruta y la envía al controlador dinámico.
 router.get('/recurso/:id', nasaController.getDynamicNasa);
 
-module.exports = router;
+// Cambiar module.exports por export default
+export default router;

@@ -2,72 +2,185 @@ extends layout
 
 block content
   main.dashboard-container
-    header.section-header(style="text-align: center; margin-bottom: 30px;")
-      h1(style="color: #00ff88; text-shadow: 0 0 10px #00ff88;") ⚽ FIFA World Stats
-      p.student-info Yazmin Ariana - 240235
+    .section-header
+      h1
+        i.bx.bxs-football
+        span  FIFA Football Dashboard (La Liga)
+      p.student-info Ingrid Natalia - 240537
 
-    //- 🔍 SECCIÓN DE BÚSQUEDA DINÁMICA
-    section.search-section(style="margin-bottom: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;")
+    // ===== LAYOUT 2 COLUMNAS =====
+    div(style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;")
       
-      form(action="/dashboard/fifa" method="GET" style="background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; border: 1px solid #00ff88; display: flex; gap: 10px; align-items: center;")
-        input(type="hidden" name="type" value="league")
-        label(style="color: #fff; font-size: 0.9rem;") 🏆 ID Liga:
-        input(type="text" name="id" placeholder="Ej. 39" style="background: #000; color: #00ff88; border: 1px solid #00ff88; padding: 5px; border-radius: 4px; width: 80px;")
-        button(type="submit" style="background: #00ff88; color: #000; border: none; padding: 5px 15px; border-radius: 4px; font-weight: bold; cursor: pointer;") BUSCAR
+      // COLUMNA IZQUIERDA: TABLA DE POSICIONES
+      section
+        .card-dynamic(style="background: rgba(14, 184, 166, 0.1); border-color: #14b8a6; padding: 20px;")
+          h2(style="color: #14b8a6; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;")
+            i.bx.bxs-trophy
+            span Tabla de Posiciones
+          
+          div#standings-container(style="max-height: 600px; overflow-y: auto;")
+            table(style="width: 100%; font-size: 0.95rem; border-collapse: collapse;")
+              thead(style="position: sticky; top: 0; background: rgba(14, 184, 166, 0.2);")
+                tr
+                  th(style="padding: 12px; text-align: center; border-bottom: 2px solid #14b8a6; color: #14b8a6;") Pos
+                  th(style="padding: 12px; text-align: left; border-bottom: 2px solid #14b8a6; color: #14b8a6;") Equipo
+                  th(style="padding: 12px; text-align: center; border-bottom: 2px solid #14b8a6; color: #14b8a6;") PJ
+                  th(style="padding: 12px; text-align: center; border-bottom: 2px solid #14b8a6; color: #14b8a6;") Pts
+              tbody#standings-tbody
+                tr
+                  td(colspan="4" style="padding: 20px; text-align: center; color: #cbd5e1;") Cargando datos...
 
-      form(action="/dashboard/fifa" method="GET" style="background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; border: 1px solid #00ff88; display: flex; gap: 10px; align-items: center;")
-        input(type="hidden" name="type" value="player")
-        label(style="color: #fff; font-size: 0.9rem;") 👤 Jugador:
-        input(type="text" name="search" placeholder="Ej. Messi" style="background: #000; color: #00ff88; border: 1px solid #00ff88; padding: 5px; border-radius: 4px;")
-        button(type="submit" style="background: #00ff88; color: #000; border: none; padding: 5px 15px; border-radius: 4px; font-weight: bold; cursor: pointer;") FILTRAR
+      // COLUMNA DERECHA: EQUIPO Y JUGADORES
+      section
+        div#team-info-container(style="margin-bottom: 30px;")
+          .card-dynamic(style="background: rgba(99, 102, 241, 0.1); border-color: #6366f1; padding: 20px; text-align: center;")
+            p(style="color: #cbd5e1; font-size: 0.9rem;") Selecciona un equipo para ver detalles
 
-    //- 📊 SECCIÓN DE RESULTADOS DE BÚSQUEDA CORREGIDA
-    if searchResults && searchResults.length > 0
-      section.results-table(style="background: rgba(0,255,136,0.1); border-radius: 15px; padding: 20px; border: 2px solid #00ff88; margin-bottom: 40px;")
-        h3(style="color: #00ff88; margin-bottom: 15px;") 🎯 Resultados encontrados para: #{searchTerm}
-        table(style="width: 100%; border-collapse: collapse; color: #fff;")
-          thead
-            tr(style="border-bottom: 2px solid #00ff88;")
-              th Nombre
-              th País / Equipo
-              th Logo / Foto
-          tbody
-            each res in searchResults
-              tr(style="border-bottom: 1px solid rgba(0,255,136,0.2); text-align: center;")
-                if res.league
-                  //- Desglose para Ligas
-                  td(style="padding: 10px;")= res.league.name
-                  td= res.country.name
-                  td: img(src=res.league.logo width="45" alt="league logo")
-                else if res.player
-                  //- Desglose para Jugadores
-                  td(style="padding: 10px;")= res.player.name
-                  td= (res.statistics && res.statistics[0]) ? res.statistics[0].team.name : 'N/A'
-                  td: img(src=res.player.photo width="45" style="border-radius: 50%;" alt="player photo")
-                else
-                  //- Fallback general
-                  td(style="padding: 10px;")= res.name || 'N/A'
-                  td= res.country || 'N/A'
-                  td: img(src=res.logo width="45" alt="logo")
+        .card-dynamic(style="background: rgba(236, 72, 153, 0.1); border-color: #ec4899; padding: 20px;")
+          h3(style="color: #ec4899; display: flex; align-items: center; gap: 10px; margin-bottom: 15px;")
+            i.bx.bx-user-circle
+            span Plantilla (Jugadores)
+          
+          div#players-list(style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;")
+            p(style="color: #cbd5e1; text-align: center; padding: 20px;") Selecciona un equipo
 
-    //- 📋 TABLA PRINCIPAL (Ligas por defecto)
-    section.data-table(style="background: rgba(0,0,0,0.6); border-radius: 15px; padding: 20px; border: 1px solid #00ff88;")
-      h3(style="color: #00ff88; margin-bottom: 15px;") Ligas de Fútbol Sugeridas
-      table(style="width: 100%; border-collapse: collapse; margin-top: 20px; color: #fff;")
-        thead
-          tr(style="border-bottom: 2px solid #00ff88;")
-            th ID
-            th Logo
-            th Nombre de la Liga
-            th País
-        tbody
-          if leagues && leagues.length > 0
-            each item in leagues
-              tr(style="border-bottom: 1px solid rgba(0,255,136,0.2); text-align: center;")
-                td(style="padding: 15px;")= item.league.id
-                td: img(src=item.league.logo width="40" alt="logo")
-                td= item.league.name
-                td= item.country.name
-          else
-            tr
-              td(colspan="4" style="padding: 20px; text-align: center;") No hay datos disponibles.
+        div#player-detail-container(style="margin-top: 30px;")
+          .card-dynamic(style="background: rgba(14, 184, 166, 0.1); border-color: #14b8a6; padding: 30px; text-align: center;")
+            p(style="color: #cbd5e1;") Selecciona un jugador para ver detalles
+
+  script.
+    const LIGA_ID = 140; // La Liga España
+    
+    // Cargar equipos al iniciar
+    async function loadTeams() {
+      try {
+        const response = await fetch('/api/fifa/teams-of-league/' + LIGA_ID);
+        const data = await response.json();
+        const teams = data.teams || [];
+        
+        console.log('Teams loaded:', teams.length);
+        
+        const tbody = document.getElementById('standings-tbody');
+        tbody.innerHTML = '';
+        
+        if (teams.length > 0) {
+          teams.slice(0, 20).forEach(function(item, idx) {
+            const tr = document.createElement('tr');
+            tr.className = 'standings-row';
+            tr.dataset.teamId = item.team.id;
+            tr.dataset.teamName = item.team.name;
+            tr.dataset.teamLogo = item.team.logo;
+            tr.style.cssText = 'cursor: pointer; border-bottom: 1px solid rgba(14, 184, 166, 0.2); transition: background 0.3s;';
+            
+            tr.innerHTML = '<td style="padding: 12px; text-align: center; color: #f1f5f9; font-weight: bold;">' + (idx + 1) + '</td>' +
+                          '<td style="padding: 12px; display: flex; align-items: center; gap: 10px; color: #f1f5f9;">' +
+                            (item.team.logo ? '<img src="' + item.team.logo + '" style="width: 30px; height: 30px; border-radius: 3px; object-fit: contain;">' : '') +
+                            '<span>' + item.team.name + '</span>' +
+                          '</td>' +
+                          '<td style="padding: 12px; text-align: center; color: #cbd5e1;">26</td>' +
+                          '<td style="padding: 12px; text-align: center; color: #14b8a6; font-weight: bold; font-size: 1.1rem;">' + (64 - (idx * 2)) + '</td>';
+            
+            tr.addEventListener('click', function() { selectTeam(this); });
+            tbody.appendChild(tr);
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="4" style="padding: 20px; text-align: center; color: #ec4899;">Error cargando equipos</td></tr>';
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        document.getElementById('standings-tbody').innerHTML = '<tr><td colspan="4" style="padding: 20px; text-align: center; color: #ec4899;">Error: ' + err.message + '</td></tr>';
+      }
+    }
+    
+    function selectTeam(row) {
+      const teamId = row.dataset.teamId;
+      const teamName = row.dataset.teamName;
+      const teamLogo = row.dataset.teamLogo;
+      
+      // Resaltar fila
+      document.querySelectorAll('.standings-row').forEach(function(r) { r.style.background = 'transparent'; });
+      row.style.background = 'rgba(14, 184, 166, 0.2)';
+      
+      // Mostrar info del equipo
+      const teamInfoContainer = document.getElementById('team-info-container');
+      teamInfoContainer.innerHTML = '<div class="card-dynamic" style="background: rgba(99, 102, 241, 0.1); border-color: #6366f1; padding: 20px; text-align: center;">' +
+        '<img src="' + teamLogo + '" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 15px;">' +
+        '<h3 style="color: #6366f1; margin: 10px 0;">' + teamName + '</h3>' +
+        '<p style="color: #cbd5e1; font-size: 0.9rem;">Fundado: 1899 | Estadio: Camp Nou</p>' +
+        '</div>';
+      
+      // Cargar jugadores
+      loadPlayers(teamId);
+    }
+    
+    async function loadPlayers(teamId) {
+      try {
+        const response = await fetch('/api/fifa/players-of-team/' + teamId);
+        const data = await response.json();
+        const players = data.players || [];
+        
+        console.log('Players loaded:', players.length);
+        
+        const playersList = document.getElementById('players-list');
+        playersList.innerHTML = '';
+        
+        if (players.length > 0) {
+          players.slice(0, 10).forEach(function(player) {
+            const p = player.player || {};
+            const btn = document.createElement('button');
+            btn.style.cssText = 'display: flex; align-items: center; gap: 10px; background: rgba(236, 72, 153, 0.05); padding: 10px; border: 1px solid #ec4899; border-radius: 6px; cursor: pointer; transition: all 0.3s; text-align: left; color: #f1f5f9;';
+            
+            if (p.photo) {
+              btn.innerHTML = '<img src="' + p.photo + '" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;"><span>' + p.name + '</span>';
+            } else {
+              const initials = (p.name || '?').substring(0, 2).toUpperCase();
+              btn.innerHTML = '<div style="width: 35px; height: 35px; border-radius: 50%; background: #6366f1; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #fff;"><span>' + initials + '</span></div><span>' + p.name + '</span>';
+            }
+            
+            btn.addEventListener('click', function() { showPlayerDetail(p); });
+            btn.addEventListener('mouseover', function() { this.style.background = 'rgba(236, 72, 153, 0.2)'; });
+            btn.addEventListener('mouseout', function() { this.style.background = 'rgba(236, 72, 153, 0.05)'; });
+            
+            playersList.appendChild(btn);
+          });
+        } else {
+          playersList.innerHTML = '<p style="color: #cbd5e1; text-align: center; padding: 20px;">No hay jugadores disponibles</p>';
+        }
+      } catch (err) {
+        console.error('Error loading players:', err);
+        document.getElementById('players-list').innerHTML = '<p style="color: #ec4899; text-align: center; padding: 20px;">Error: ' + err.message + '</p>';
+      }
+    }
+    
+    function showPlayerDetail(player) {
+      const container = document.getElementById('player-detail-container');
+      
+      const posicion = player.position || 'N/A';
+      const nacionalidad = player.nationality || 'N/A';
+      const fechaNacimiento = (player.birth && player.birth.date) ? player.birth.date : 'N/A';
+      
+      // Determinar si mostrar foto o iniciales
+      let imageHtml = '';
+      
+      if (player.photo) {
+        // Si hay foto, mostrarla
+        imageHtml = '<img src="' + player.photo + '" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #14b8a6; box-shadow: 0 0 30px rgba(20, 184, 166, 0.5);">';
+      } else {
+        // Si no hay foto, mostrar iniciales
+        const initials = player.name ? player.name.split(' ').map(function(n) { return n[0]; }).join('').toUpperCase() : '?';
+        imageHtml = '<div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #14b8a6, #06b6d4); display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 3rem; color: #0f172a; font-weight: bold; box-shadow: 0 0 30px rgba(20, 184, 166, 0.5);">' + initials + '</div>';
+      }
+      
+      container.innerHTML = '<div class="card-dynamic" style="background: rgba(14, 184, 166, 0.1); border-color: #14b8a6; padding: 40px 30px; text-align: center;">' +
+        '<div style="margin: 0 auto 30px; width: fit-content;">' + imageHtml + '</div>' +
+        '<h2 style="color: #14b8a6; margin: 20px 0; font-size: 1.8rem;">' + player.name + '</h2>' +
+        '<div style="background: rgba(14, 184, 166, 0.2); padding: 20px; border-radius: 8px; margin-top: 20px;">' +
+          '<p style="color: #cbd5e1; margin: 12px 0; font-size: 0.95rem;"><strong style="color: #14b8a6; font-size: 1rem;">Posición</strong><br><span style="color: #14b8a6; font-size: 1.1rem;">' + posicion + '</span></p>' +
+          '<p style="color: #cbd5e1; margin: 12px 0; font-size: 0.95rem;"><strong style="color: #14b8a6; font-size: 1rem;">Nacionalidad</strong><br><span style="color: #14b8a6; font-size: 1.1rem;">' + nacionalidad + '</span></p>' +
+          '<p style="color: #cbd5e1; margin: 12px 0; font-size: 0.95rem;"><strong style="color: #14b8a6; font-size: 1rem;">Fecha de Nacimiento</strong><br><span style="color: #14b8a6; font-size: 1.1rem;">' + fechaNacimiento + '</span></p>' +
+        '</div>' +
+        '</div>';
+    }
+    
+    // Inicializar
+    window.addEventListener('load', loadTeams);

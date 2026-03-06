@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 const BASE = 'https://v3.football.api-sports.io';
 const TOKEN = process.env.FIFA_API_KEY;
@@ -30,7 +30,7 @@ const sendResponse = (res, source, apiData, staticKey) => {
     res.json({
         success: true,
         source: useStatic ? `FIFA ${source} (Fallback)` : `FIFA ${source}`,
-        student: 'Yazmin Ariana - 240235',
+        student: 'Ingrid Natalia - 240537',
         count: finalData.length,
         data: finalData
     });
@@ -39,7 +39,7 @@ const sendResponse = (res, source, apiData, staticKey) => {
 // --- FUNCIONES PARA DASHBOARD (Fase 05 - Uso Interno para PUG) ---
 
 // Obtener ligas iniciales para la tabla principal
-exports.getLeaguesData = async () => {
+const getLeaguesData = async () => {
     try {
         const { data } = await axios.get(`${BASE}/leagues`, {
             headers: { 'x-apisports-key': TOKEN },
@@ -56,7 +56,7 @@ exports.getLeaguesData = async () => {
  * FUNCIÓN PARA BÚSQUEDA DESDE EL DASHBOARD (Específica para Pug)
  * Agrega automáticamente el parámetro season para que la API responda.
  */
-exports.searchPlayerData = async (searchName) => {
+const searchPlayerData = async (searchName) => {
     try {
         console.log(`📡 Consultando API para: ${searchName}...`);
         const { data } = await axios.get(`${BASE}/players`, {
@@ -89,10 +89,58 @@ exports.searchPlayerData = async (searchName) => {
     }
 };
 
+// Obtener equipos de una liga
+const getTeamsOfLeague = async (leagueId) => {
+    try {
+        console.log(`📡 Obteniendo equipos de liga ${leagueId}...`);
+        const { data } = await axios.get(`${BASE}/teams`, {
+            headers: { 'x-apisports-key': TOKEN },
+            params: { league: leagueId, season: 2023 }
+        });
+        const teams = (data.response && data.response.length > 0) ? data.response : [];
+        console.log(`✅ ${teams.length} equipos obtenidos`);
+        return teams;
+    } catch (err) {
+        console.error("❌ Error en getTeamsOfLeague:", err.message);
+        // Retornar datos de ejemplo si la API falla
+        return [{
+            team: { id: 529, name: "FC Barcelona", logo: "https://media.api-sports.io/football/teams/529.png" },
+            venue: { id: 322, name: "Camp Nou" }
+        },
+        {
+            team: { id: 541, name: "Real Madrid", logo: "https://media.api-sports.io/football/teams/541.png" },
+            venue: { id: 326, name: "Santiago Bernabéu" }
+        }];
+    }
+};
+
+// Obtener jugadores de un equipo
+const getPlayersOfTeam = async (teamId) => {
+    try {
+        console.log(`📡 Obteniendo jugadores del equipo ${teamId}...`);
+        const { data } = await axios.get(`${BASE}/players`, {
+            headers: { 'x-apisports-key': TOKEN },
+            params: { team: teamId, season: 2023 }
+        });
+        const players = (data.response && data.response.length > 0) ? data.response : [];
+        console.log(`✅ ${players.length} jugadores obtenidos`);
+        return players;
+    } catch (err) {
+        console.error("❌ Error en getPlayersOfTeam:", err.message);
+        // Retornar datos de ejemplo si la API falla
+        return [{
+            player: { id: 154, name: "Lionel Messi", photo: "https://media.api-sports.io/football/players/154.png", position: "Forward", nationality: "Argentina" }
+        },
+        {
+            player: { id: 52, name: "Cristiano Ronaldo", photo: "https://media.api-sports.io/football/players/52.png", position: "Forward", nationality: "Portugal" }
+        }];
+    }
+};
+
 // --- ENDPOINTS DINÁMICOS Y ESPECÍFICOS (Fase 03) ---
 
 // Manejador genérico para los 20 endpoints dinámicos del README
-exports.handleGenericFIFA = async (req, res) => {
+const handleGenericFIFA = async (req, res) => {
     const endpoint = req.params.path || req.params.id;
     const queryParams = { ...req.query };
 
@@ -110,7 +158,7 @@ exports.handleGenericFIFA = async (req, res) => {
         res.json({
             success: true,
             source: `FIFA API: ${endpoint}`,
-            student: 'Yazmin Ariana - 240235',
+            student: 'Ingrid Natalia - 240537',
             data: data.response
         });
     } catch (err) {
@@ -119,21 +167,21 @@ exports.handleGenericFIFA = async (req, res) => {
 };
 
 // Endpoints individuales
-exports.getLeagues = async (req, res) => {
+const getLeagues = async (req, res) => {
     try {
         const { data } = await axios.get(`${BASE}/leagues`, { headers: { 'x-apisports-key': TOKEN }, params: req.query });
         sendResponse(res, 'Leagues', data.response, 'leagues');
     } catch (err) { sendResponse(res, 'Leagues', [], 'leagues'); }
 };
 
-exports.getCountries = async (req, res) => {
+const getCountries = async (req, res) => {
     try {
         const { data } = await axios.get(`${BASE}/countries`, { headers: { 'x-apisports-key': TOKEN } });
         sendResponse(res, 'Countries', data.response, 'countries');
     } catch (err) { sendResponse(res, 'Countries', [], 'countries'); }
 };
 
-exports.getVenues = async (req, res) => {
+const getVenues = async (req, res) => {
     try {
         const { country = 'Mexico' } = req.query;
         const { data } = await axios.get(`${BASE}/venues`, { headers: { 'x-apisports-key': TOKEN }, params: { country } });
@@ -151,8 +199,10 @@ const handleGeneric = (name, endpoint) => async (req, res) => {
     } catch (err) { sendResponse(res, name, [], 'none'); }
 };
 
-exports.getTeams = handleGeneric('Teams', 'teams');
-exports.getPlayers = handleGeneric('Players', 'players');
-exports.getStandings = handleGeneric('Standings', 'standings');
-exports.getFixtures = handleGeneric('Fixtures', 'fixtures');
-exports.getTopScorers = handleGeneric('TopScorers', 'players/topscorers');
+const getTeams = handleGeneric('Teams', 'teams');
+const getPlayers = handleGeneric('Players', 'players');
+const getStandings = handleGeneric('Standings', 'standings');
+const getFixtures = handleGeneric('Fixtures', 'fixtures');
+const getTopScorers = handleGeneric('TopScorers', 'players/topscorers');
+
+export default { getLeaguesData, searchPlayerData, getTeamsOfLeague, getPlayersOfTeam, handleGenericFIFA, getLeagues, getCountries, getVenues, getTeams, getPlayers, getStandings, getFixtures, getTopScorers };

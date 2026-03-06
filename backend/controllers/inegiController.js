@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 const TOKEN = process.env.INEGI_API_KEY;
 
 // --- Datos estáticos de respaldo (Fallback) ---
@@ -17,34 +17,34 @@ const STATIC_DATA = {
 
 // --- Manejadores Específicos (Fase 03) ---
 
-exports.getPoblacion = (req, res) => {
+const getPoblacion = (req, res) => {
     res.json({
         success: true,
         demo: true,
         source: 'INEGI Población',
-        student: 'Yazmin Ariana - 240235',
+        student: 'Ingrid Natalia - 240537',
         data: STATIC_DATA.poblacion
     });
 };
 
-exports.getInflacion = (req, res) => {
+const getInflacion = (req, res) => {
     res.json({
         success: true,
         demo: true,
         source: 'INEGI Inflación',
-        student: 'Yazmin Ariana - 240235',
+        student: 'Ingrid Natalia - 240537',
         data: STATIC_DATA.inflacion
     });
 };
 
-exports.getEconomia = (req, res) => {
+const getEconomia = (req, res) => {
     const { tipo = 'pib' } = req.query;
     const data = STATIC_DATA[tipo] || STATIC_DATA.pib;
     res.json({
         success: true,
         demo: true,
         source: `INEGI ${tipo.toUpperCase()}`,
-        student: 'Yazmin Ariana - 240235',
+        student: 'Ingrid Natalia - 240537',
         data
     });
 };
@@ -55,7 +55,7 @@ exports.getEconomia = (req, res) => {
  * Obtiene la información procesada de un indicador para el Dashboard.
  * Por defecto usa el ID de Población Total (1002000001).
  */
-exports.getIndicatorData = async (id = '1002000001') => {
+const getIndicatorData = async (id = '1002000001') => {
     try {
         // Nueva URL más directa para evitar el 404
         const url = `https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/INDICADOR/${id}/es/0700/false/BIE/2.0/${TOKEN}?type=json`;
@@ -88,7 +88,7 @@ exports.getIndicatorData = async (id = '1002000001') => {
 
 // --- FUNCIÓN MAESTRA DINÁMICA (Cubre los 20 endpoints reales) ---
 
-exports.getInegiIndicator = async (req, res) => {
+const getInegiIndicator = async (req, res) => {
     const indicatorId = req.params.indicatorId || req.params.path;
     try {
         const url = `https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/INDICADOR/${indicatorId}/es/0700/true/BIE/2.0/${TOKEN}?type=json`;
@@ -98,7 +98,7 @@ exports.getInegiIndicator = async (req, res) => {
             res.json({
                 success: true,
                 source: `INEGI API: Indicador ${indicatorId}`,
-                student: 'Yazmin Ariana - 240235',
+                student: 'Ingrid Natalia - 240537',
                 data: data.Series[0].Data
             });
         } else {
@@ -108,14 +108,14 @@ exports.getInegiIndicator = async (req, res) => {
         res.status(500).json({
             success: false,
             error: 'Indicador no disponible o token inválido',
-            student: 'Yazmin Ariana - 240235'
+            student: 'Ingrid Natalia - 240537'
         });
     }
 };
 
 // --- GRÁFICAS DEL DASHBOARD ---
 
-exports.getDashboardChartsData = async () => {
+const getDashboardChartsData = async () => {
     try {
         const url = `https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/INDICADOR/1002000001/es/0700/true/BIE/2.0/${TOKEN}?type=json`;
         const { data } = await axios.get(url);
@@ -128,3 +128,5 @@ exports.getDashboardChartsData = async () => {
         ];
     }
 };
+
+export default { getPoblacion, getInflacion, getEconomia, getIndicatorData, getInegiIndicator, getDashboardChartsData };

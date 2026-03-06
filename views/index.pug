@@ -3,38 +3,43 @@ html(lang="es")
   head
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(name="description", content="Portal de Datos - Explorador de APIs")
     title= title
     link(rel="stylesheet", href="/style.css")
-    //- CDN de Boxicons para los iconos decorativos
     link(href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet')
   body
     canvas#starCanvas
     
     .container
       header
-        h1 Portal Espacial - Práctica 05
-        p.student-info= student
+        h1 Portal de Datos
+        p.student-info
+          i.bx.bxs-user
+          span  = student
       
       main.dashboard
-        //- Tarjeta NASA: Icono de planeta
         section.card
-          i.bx.bxs-planet.icon-neon
+          i.bx.bxs-rocket.icon-neon
           h2 NASA
-          p Exploración del universo y monitoreo de asteroides.
-          a.btn(href="/dashboard/nasa") Explorar NASA
+          p Exploración del universo, asteroides y fenómenos espaciales
+          a.btn(href="/dashboard/nasa")
+            i.bx.bx-right-arrow-alt
+            span Explorar NASA
         
-        //- Tarjeta FIFA: Icono de fútbol
         section.card
-          i.bx.bx-football.icon-neon
+          i.bx.bxs-football.icon-neon
           h2 FIFA
-          p Estadísticas mundiales y consulta de ligas.
-          a.btn(href="/dashboard/fifa") Consultar FIFA
+          p Estadísticas mundiales, ligas y jugadores profesionales
+          a.btn(href="/dashboard/fifa")
+            i.bx.bx-right-arrow-alt
+            span Consultar FIFA
           
-        //- Tarjeta INEGI: Icono de gráfica
         section.card
           i.bx.bxs-bar-chart-alt-2.icon-neon
           h2 INEGI
-          p Análisis de indicadores económicos de México.
-          a.btn(href="/dashboard/inegi") Ver Datos INEGI
+          p Indicadores económicos y datos de México
+          a.btn(href="/dashboard/inegi")
+            i.bx.bx-right-arrow-alt
+            span Ver Datos INEGI
 
     script(src="/stars.js")

@@ -1,6 +1,7 @@
-const express = require('express');
+// Cambiar require por import
+import express from 'express';
 const router = express.Router();
-const fifaController = require('../controllers/fifaController');
+import fifaController from '../controllers/fifaController.js';
 
 // --- RUTAS ESPECÍFICAS (Fase 03 y Fase 05) ---
 
@@ -30,4 +31,5 @@ router.get('/topscorers', fifaController.getTopScorers);
  */
 router.get('/recurso/:id', fifaController.handleGenericFIFA);
 
-module.exports = router;
+// Cambiar module.exports por export default
+export default router;

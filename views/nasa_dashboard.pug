@@ -2,25 +2,46 @@ extends layout
 
 block content
   main.dashboard-container
-    header.section-header(style="text-align: center; margin-bottom: 30px;")
-      h1(style="color: #00d4ff; text-shadow: 0 0 10px #00d4ff;") 🛰️ Portal Espacial NASA
-      p.student-info Yazmin Ariana - 240235
+    .section-header
+      h1
+        i.bx.bxs-rocket
+        span  Portal NASA
+      p.student-info Ingrid Natalia - 240537
 
-    //- 🔍 BUSCADOR POR FECHA (La función que faltaba)
-    section.search-section(style="margin-bottom: 30px; display: flex; justify-content: center;")
-      form(action="/dashboard/nasa" method="GET" style="background: rgba(0,0,0,0.6); padding: 20px; border-radius: 15px; border: 1px solid #00d4ff; display: flex; gap: 15px; align-items: center;")
-        label(for="date" style="color: #fff;") Seleccionar fecha espacial:
-        input(type="date" name="date" id="date" style="background: #000; color: #00d4ff; border: 1px solid #00d4ff; padding: 8px; border-radius: 5px;")
-        button.btn-neon(type="submit" style="cursor: pointer; padding: 8px 20px; background: #00d4ff; color: #000; font-weight: bold; border: none; border-radius: 5px;") EXPLORAR FECHA
+    section.search-section
+      form(action="/dashboard/nasa" method="GET")
+        label(for="date") 📅 Selecciona una fecha
+        input(type="date" name="date" id="date" required)
+        button(type="submit")
+          i.bx.bx-search
+          span  Explorar Fecha
 
     if apod
-      section.apod-display(style="max-width: 900px; margin: 0 auto;")
-        div.card-dynamic(style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border: 1px solid rgba(0,212,255,0.3);")
+      section.apod-display
+        .card-dynamic
           if apod.media_type === 'image'
-            img(src=apod.url alt=apod.title style="width: 100%; border-radius: 15px; box-shadow: 0 0 20px rgba(0,212,255,0.4);")
+            img(src=apod.url alt=apod.title)
+          else if apod.media_type === 'video'
+            iframe(src=apod.url frameborder="0" allowfullscreen)
           else
-            iframe(src=apod.url style="width: 100%; height: 500px; border-radius: 15px;")
+            p.source-note Tipo de media: #{apod.media_type}
           
-          h2(style="color: #00d4ff; margin-top: 20px;")= apod.title
-          p(style="color: #ccc; line-height: 1.6; text-align: justify;")= apod.explanation
-          p(style="font-style: italic; color: #00d4ff; margin-top: 10px;") 📅 Fecha de captura: #{apod.date}
+          h2= apod.title
+          p(style="margin-bottom: 15px;")= apod.explanation
+          
+          .card-dynamic(style="background: rgba(99, 102, 241, 0.1); border: none; padding: 20px; margin-top: 20px;")
+            p
+              strong Fecha:
+              span(style="margin-left: 10px;")= apod.date
+            if apod.media_type
+              p(style="margin-top: 10px;")
+                strong Tipo de media:
+                span(style="margin-left: 10px;")= apod.media_type
+            if apod.copyright
+              p(style="margin-top: 10px;")
+                strong Créditos:
+                span(style="margin-left: 10px;")= apod.copyright
+    else
+      .card-dynamic(style="text-align: center; padding: 60px 30px;")
+        i.bx.bx-loader-circle(style="font-size: 3rem; animation: spin 1s linear infinite;")
+        p(style="margin-top: 15px; color: var(--muted-text);") Selecciona una fecha para ver la Imagen Astronómica del Día (APOD)
