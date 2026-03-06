@@ -23,7 +23,7 @@ block content
             i.bx.bx-search
             span Consultar
 
-    // ===== INDICADORES DESTACADOS (Datos Cualitativos y Cuantitativos) =====
+    // ===== INDICADORES DESTACADOS =====
     section(style="margin-bottom: 30px;")
       h2(style="color: #84cc16; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;")
         i.bx.bxs-star
@@ -58,6 +58,14 @@ block content
           p(style="font-size: 1.3rem; font-weight: bold; color: #f1f5f9;") 2.6%
           p(style="color: #cbd5e1; font-size: 0.85rem;") Tasa
 
+    // ===== OTROS INDICADORES =====
+    section(style="margin-top: 30px;")
+      h2(style="color: #84cc16; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;")
+        i.bx.bxs-list-ul
+        span Otros Indicadores (Top 10)
+      div#other-indicators(style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;")
+        // se llenará con JS
+
     // ===== RESULTADO DE BÚSQUEDA =====
     if indicator
       section(style="margin-bottom: 30px;")
@@ -84,7 +92,7 @@ block content
     section
       .card-dynamic(style="background: rgba(132, 204, 22, 0.1); border-color: #84cc16; padding: 25px;")
         h2(style="color: #84cc16; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;")
-          i.bx bx-line-chart
+          i.bx.bx-line-chart
           span Datos Históricos
           span(style="font-size: 0.9rem; color: #cbd5e1; margin-left: 10px;") (Últimos 10 períodos)
         
@@ -96,7 +104,7 @@ block content
       section(style="margin-top: 30px;")
         .card-dynamic(style="background: rgba(132, 204, 22, 0.05); border-color: #84cc16; padding: 20px;")
           h3(style="color: #84cc16; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;")
-            i.bx bxs-table
+            i.bx.bxs-table
             span Datos Históricos Detallados
           
           div(style="overflow-x: auto;")
@@ -116,7 +124,7 @@ block scripts
   script.
     // Variables globales
     let chart = null;
-    const chartData = !{JSON.stringify(chartData || [])};
+    var chartData = !{JSON.stringify(chartData || [])};
     
     // Función para buscar indicador desde las tarjetas
     function buscarIndicador(id) {
@@ -125,6 +133,11 @@ block scripts
     
     // Inicializar gráfica cuando cargue la página
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('📊 Datos recibidos:', chartData);
+      
+      // cargar top 10 indicadores
+      fetchTop10Indicators();
+      
       if (chartData && chartData.length > 0) {
         crearGrafica(chartData);
       } else {
@@ -139,6 +152,36 @@ block scripts
         crearGrafica(datosEjemplo);
       }
     });
+
+    // Función para consultar los 10 indicadores principales
+    async function fetchTop10Indicators() {
+      try {
+        const resp = await fetch('/inegi/top10');
+        const json = await resp.json();
+        if (json.success && json.data && json.data.length > 0) {
+          renderTop10(json.data);
+        }
+      } catch (e) {
+        console.error('Error al obtener top10:', e);
+      }
+    }
+
+    function renderTop10(list) {
+      const container = document.getElementById('other-indicators');
+      container.innerHTML = '';
+      list.forEach(ind => {
+        const card = document.createElement('div');
+        card.className = 'card-dynamic';
+        card.style.cssText = 'background: rgba(132, 204, 22, 0.1); border-color: #84cc16; padding: 15px; text-align: center; cursor: pointer;';
+        card.onclick = () => buscarIndicador(ind.id);
+        card.innerHTML = `
+          <h4 style="color: #84cc16; font-size: 1rem; margin-bottom: 8px;">${ind.nombre}</h4>
+          <p style="font-size: 1.1rem; font-weight: bold; color: #f1f5f9;">${ind.valor}</p>
+          <p style="color: #cbd5e1; font-size: 0.75rem;">${ind.fecha}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
     
     function crearGrafica(datos) {
       const ctx = document.getElementById('inegiChart').getContext('2d');
@@ -157,7 +200,13 @@ block scripts
           labels: datos.map(item => item.periodo),
           datasets: [{
             label: 'Valor del Indicador',
-            data: datos.map(item => parseFloat(item.valor.toString().replace(/[^0-9.-]/g, ''))),
+            data: datos.map(item => {
+              // Convertir a número, removiendo cualquier caracter no numérico
+              if (typeof item.valor === 'string') {
+                return parseFloat(item.valor.replace(/[^0-9.-]/g, ''));
+              }
+              return parseFloat(item.valor);
+            }),
             borderColor: '#84cc16',
             backgroundColor: 'rgba(132, 204, 22, 0.1)',
             borderWidth: 3,
@@ -199,4 +248,6 @@ block scripts
           }
         }
       });
+      
+      console.log('✅ Gráfica creada con', datos.length, 'datos');
     }

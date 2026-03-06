@@ -1,4 +1,3 @@
-// Cambiar require por import
 import express from 'express';
 const router = express.Router();
 import fifaController from '../controllers/fifaController.js';
@@ -31,5 +30,4 @@ router.get('/topscorers', fifaController.getTopScorers);
  */
 router.get('/recurso/:id', fifaController.handleGenericFIFA);
 
-// Cambiar module.exports por export default
 export default router;

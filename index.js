@@ -53,8 +53,27 @@ app.get('/dashboard/fifa', async (req, res) => {
   }
 });
 
-app.get('/dashboard/inegi', (req, res) => {
-  res.render('inegi_dashboard');
+app.get('/dashboard/inegi', async (req, res) => {
+  const { search } = req.query;
+  let indicator = null;
+  let historicalData = null;
+  let chartData = null;
+  
+  console.log('📊 Dashboard INEGI - Search:', search);
+  
+  if (search) {
+    try {
+      indicator = await inegiController.getIndicatorData(search);
+      console.log('📊 Indicador obtenido:', indicator);
+      historicalData = await inegiController.getDashboardChartsData();
+      chartData = historicalData;
+    } catch (err) {
+      console.error('❌ Error loading INEGI data:', err);
+    }
+  }
+  
+  console.log('📊 Pasando al template - indicator:', indicator);
+  res.render('inegi_dashboard', { searchValue: search || '', indicator, historicalData, chartData });
 });
 
 app.get('/dashboard/nasa', async (req, res) => {

@@ -22,4 +22,14 @@ router.get('/charts-data', async (req, res) => {
   }
 });
 
+// --- RUTA PARA OBTENER TOP 10 INDICADORES ---
+router.get('/top10', async (req, res) => {
+  try {
+    const list = await inegiController.getTopIndicators();
+    res.json({ success: true, count: list.length, data: list });
+  } catch (err) {
+    res.json({ success: false, count: 0, data: [] });
+  }
+});
+
 export default router;
