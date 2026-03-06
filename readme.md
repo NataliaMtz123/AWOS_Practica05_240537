@@ -140,16 +140,23 @@ Este sistema implementa una arquitectura **MVC (Modelo-Vista-Controlador)** dond
 **![general_view](./docs/inegi.png)**
 
 ### Pagina de la FIFA
-**![general_view](./docs/fifa.png)**
+**![general_view](./docs/fifa.pngs)**
+**![general_view](./docs/fifaa.png)**
 
 ### Codigo de la NASA
 **![general_view](./docs/nasa2.png)**
 
 ### Codigo del INEGI
-**![general_view](./docs/ineg2.png)**
+**![general_view](./docs/inegi2.png)**
 
 ### Codigo de la FIFA
 **![general_view](./docs/fifa2.png)**
+
+### Codigo del index
+**![general_view](./docs/index.png)**
+
+### Evidencia de las ramas
+**![general_view](./docs/ramales.png)**
 
 ---
 
