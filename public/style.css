@@ -1,157 +1,567 @@
-/* public/style.css */
+/* ===== DISEÑO MODERNO Y PROFESIONAL ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== VARIABLES DE COLOR ===== */
+:root {
+  --primary-color: #6366f1;
+  --secondary-color: #ec4899;
+  --accent-color: #14b8a6;
+  --dark-bg: #0f172a;
+  --light-text: #f1f5f9;
+  --muted-text: #cbd5e1;
+  --card-bg: rgba(15, 23, 42, 0.8);
+  --border-color: rgba(99, 102, 241, 0.2);
+  --gradient-1: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+  --gradient-2: linear-gradient(135deg, #ec4899 0%, #14b8a6 100%);
+  --gradient-3: linear-gradient(135deg, #14b8a6 0%, #6366f1 100%);
+}
+
+/* ===== ESTILOS GLOBALES ===== */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #050505;
-    /* Fondo negro profundo */
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow-x: hidden;
+  background: linear-gradient(135deg, #0f172a 0%, #1a1f4a 50%, #0f172a 100%);
+  color: var(--light-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
+/* Fondo de estrellas */
 #starCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    /* Queda detrás del contenido */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.5;
 }
 
+/* Contenedor principal */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 50px 20px;
-    text-align: center;
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
-h1 {
-    font-size: 3rem;
-    text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
-    margin-bottom: 10px;
+/* ===== HEADER ===== */
+header {
+  text-align: center;
+  margin-bottom: 60px;
+  animation: slideInDown 0.6s ease-out;
+}
+
+header h1, h1 {
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 800;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 15px;
+  letter-spacing: -1px;
 }
 
 .student-info {
-    font-size: 1.2rem;
-    color: #00d4ff;
-    margin-bottom: 50px;
-    letter-spacing: 1px;
+  font-size: 1.1rem;
+  color: var(--muted-text);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-bottom: 30px;
 }
 
-/* --- Dashboard y Tarjetas --- */
-.dashboard {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+nav {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
 }
 
-.card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    border-radius: 15px;
-    padding: 40px 30px;
-    /* Un poco más de aire arriba */
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    backdrop-filter: blur(8px);
-    /* Desenfoque más suave */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* --- Estilo de los Iconos Decorativos (Nuevos) --- */
-.icon-neon {
-    font-size: 4rem;
-    /* Tamaño destacado */
-    color: #00d4ff;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.8));
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.card:hover .icon-neon {
-    transform: scale(1.2) rotate(5deg);
-    filter: drop-shadow(0 0 15px #00d4ff);
-}
-
-.card h2 {
-    margin: 10px 0;
-    font-size: 1.8rem;
-    color: #fff;
-}
-
-.card p {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #ccc;
-    min-height: 60px;
-    /* Mantiene las tarjetas alineadas */
-}
-
-.card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4);
-    border-color: #00d4ff;
-}
-
-/* --- Botones --- */
 .btn {
-    display: inline-block;
-    margin-top: 25px;
-    padding: 12px 30px;
-    background: transparent;
-    border: 2px solid #00d4ff;
-    color: #00d4ff;
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
+  padding: 10px 20px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 2px solid var(--primary-color);
+  color: var(--light-text);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 15px;
 }
 
 .btn:hover {
-    background: #00d4ff;
-    color: #000;
-    box-shadow: 0 0 20px #00d4ff;
+  background: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
 }
 
+/* ===== DASHBOARD GRID ===== */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+/* ===== TARJETAS ===== */
+.card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  padding: 40px 30px;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Efecto de brillo en hover */
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover {
+  border-color: var(--primary-color);
+  background: rgba(99, 102, 241, 0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(99, 102, 241, 0.3);
+}
+
+/* Ícono de tarjeta */
+.icon-neon {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  transition: all 0.4s ease;
+  filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.6));
+}
+
+.card:nth-child(1) .icon-neon {
+  color: #6366f1;
+}
+
+.card:nth-child(2) .icon-neon {
+  color: #ec4899;
+}
+
+.card:nth-child(3) .icon-neon {
+  color: #14b8a6;
+}
+
+.card:hover .icon-neon {
+  transform: scale(1.15) rotate(5deg);
+  filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.9));
+}
+
+/* Títulos de tarjeta */
+.card h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 15px 0;
+  color: var(--light-text);
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: var(--muted-text);
+  line-height: 1.6;
+  min-height: 60px;
+  margin-bottom: 20px;
+}
+
+/* ===== SECCIÓN DE BÚSQUEDA ===== */
+.search-section {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 40px;
+  backdrop-filter: blur(10px);
+}
+
+.search-section form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.search-section label {
+  color: var(--light-text);
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+  text-align: left;
+  flex-basis: 100%;
+}
+
+.search-section input,
+.search-section select {
+  padding: 12px 16px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--light-text);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-section input:focus,
+.search-section select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.search-section button {
+  padding: 12px 30px;
+  background: var(--gradient-1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.search-section button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+}
+
+/* ===== SECCIÓN DE CONTENIDO DINÁMICO ===== */
+.dashboard-container {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-header h1 {
+  font-size: 2.5rem;
+  background: var(--gradient-2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+
+/* ===== APOD DISPLAY (NASA) ===== */
+.apod-display {
+  margin-bottom: 40px;
+}
+
+.card-dynamic {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s ease;
+}
+
+.card-dynamic:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 20px 50px rgba(99, 102, 241, 0.2);
+}
+
+.card-dynamic img,
+.card-dynamic iframe {
+  border-radius: 12px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+}
+
+.card-dynamic h2 {
+  color: var(--light-text);
+  font-size: 2rem;
+  margin: 20px 0 15px;
+}
+
+.card-dynamic p {
+  color: var(--muted-text);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+
+.card-dynamic p:last-child {
+  color: var(--primary-color);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* ===== TABLA DE DATOS ===== */
+.data-table {
+  width: 100%;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  margin-bottom: 30px;
+}
+
+.data-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table thead {
+  background: rgba(99, 102, 241, 0.2);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.data-table th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--light-text);
+}
+
+.data-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--muted-text);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== GRÁFICOS ===== */
+.chart-container {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.chart-container canvas {
+  max-height: 300px;
+}
+
+/* ===== GALERÍA DE MEDIOS ===== */
 .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
 }
 
 .media-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    border-radius: 15px;
-    overflow: hidden;
-    transition: all 0.3s ease;
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s ease;
 }
 
 .media-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+  transform: translateY(-4px);
+  border-color: var(--primary-color);
+  box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
 }
 
 .media-container img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .media-info {
-    padding: 15px;
-    text-align: left;
+  padding: 15px;
+  text-align: left;
 }
 
 .source-note {
-    font-size: 0.8rem;
-    color: #00d4ff;
-    font-style: italic;
+  font-size: 0.8rem;
+  color: var(--accent-color);
+  font-style: italic;
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
     opacity: 0.7;
-    margin-bottom: 20px;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== LOADING STATE ===== */
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 15px;
+  }
+
+  header h1, h1 {
+    font-size: 2rem;
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .search-section form {
+    flex-direction: column;
+  }
+
+  .search-section input,
+  .search-section select,
+  .search-section button {
+    width: 100%;
+  }
+
+  .section-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .card-dynamic {
+    padding: 20px;
+  }
+
+  .card-dynamic h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px 10px;
+  }
+
+  header h1, h1 {
+    font-size: 1.5rem;
+  }
+
+  .student-info {
+    font-size: 0.95rem;
+  }
+
+  .card {
+    padding: 25px 15px;
+  }
+
+  .icon-neon {
+    font-size: 2.5rem;
+  }
+
+  .card h2 {
+    font-size: 1.3rem;
+  }
+
+  .section-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .card-dynamic h2 {
+    font-size: 1.2rem;
+  }
+
+  .card-dynamic p {
+    font-size: 0.9rem;
+  }
+}
+
+/* ===== SCROLLBAR PERSONALIZADO ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(99, 102, 241, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
 }

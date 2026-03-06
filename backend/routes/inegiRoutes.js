@@ -1,6 +1,7 @@
-const express = require('express');
+// Cambiar require por import
+import express from 'express';
 const router = express.Router();
-const inegiController = require('../controllers/inegiController');
+import inegiController from '../controllers/inegiController.js';
 
 // --- RUTAS ESPECÍFICAS (Fase 03 y Fase 05) ---
 
@@ -18,4 +19,5 @@ router.get('/economia', inegiController.getEconomia);
 // Ejemplo: /api/inegi/indicador/6200205259
 router.get('/indicador/:indicatorId', inegiController.getInegiIndicator);
 
-module.exports = router;
+// Cambiar module.exports por export default
+export default router;

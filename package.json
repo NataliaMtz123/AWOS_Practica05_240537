@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/NataliaMtz123/AWOS_Practica05_240537#readme",
   "dependencies": {
+    "axios": "^1.13.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "mysql2": "^3.19.0",
