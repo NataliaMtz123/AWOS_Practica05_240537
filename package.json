@@ -1,0 +1,32 @@
+{
+  "name": "awos_practica05_240537",
+  "version": "1.0.0",
+  "description": "Práctica 05 - Conexión a DB",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NataliaMtz123/AWOS_Practica05_240537.git"
+  },
+  "keywords": [],
+  "author": "Ingrid Natalia Martínez Carrasco (240537)",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/NataliaMtz123/AWOS_Practica05_240537/issues"
+  },
+  "homepage": "https://github.com/NataliaMtz123/AWOS_Practica05_240537#readme",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mysql2": "^3.19.0",
+    "pug": "^3.0.3",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
