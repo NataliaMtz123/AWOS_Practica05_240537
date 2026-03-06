@@ -28,7 +28,7 @@ Este sistema implementa una arquitectura **MVC (Modelo-Vista-Controlador)** dond
 | Fase | Título | Descripción | Estatus |
 | :---- | :--- | :--- | :--- |
 | **1** | **Infraestructura Base** | Configuración de la identidad del proyecto en `package.json` e instalación de dependencias principales. | ✅ Finalizado |
-| **2** | **Servidor y Estructura MVC** | Creación del servidor Express, configuración de carpetas y middleware de registro de peticiones. | 🔄 En Proceso |
+| **2** | **Servidor y Estructura MVC** | Creación del servidor Express, configuración de carpetas y middleware de registro de peticiones. | ✅ Finalizado |
 | **3** | **Controladores y Rutas (APIs)** | Implementación de la lógica asíncrona para consumir NASA, FIFA e INEGI (60 endpoints en total). | ⏳ Pendiente |
 | **4** | **Interfaz de Usuario (UX/UI)** | Desarrollo de la Landing Page y Dashboards dinámicos con Pug y Tailwind CSS. | ⏳ Pendiente |
 | **5** | **Documentación y Entrega** | Pruebas finales de funcionamiento y registro de evidencias para evaluación docente. | ⏳ Pendiente |
