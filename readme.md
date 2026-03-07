@@ -130,33 +130,108 @@ Este sistema implementa una arquitectura **MVC (Modelo-Vista-Controlador)** dond
 
 ## Evidencias del funcionamiento
 
-### Pagina Principal
-**![general_view](./docs/principal.png)**
+## Evidencias del funcionamiento
 
-### Pagina de la NASA
-**![general_view](./docs/nasa.png)**
+### 1️⃣ Página Principal - Portal de Datos
+**Descripción:** Página inicial para acceder a los módulos de **NASA, FIFA e INEGI**.
 
-### Pagina del INEGI
-**![general_view](./docs/inegi.png)**
+**Funcionamiento:** Actúa como centro de navegación hacia cada API disponible.
 
-### Pagina de la FIFA
-**![general_view](./docs/fifa.png)**
-**![general_view](./docs/fifaa.png)**
+![general_view](./docs/principal.png)
 
-### Codigo de la NASA
-**![general_view](./docs/nasa2.png)**
+---
 
-### Codigo del INEGI
-**![general_view](./docs/inegi2.png)**
+### 2️⃣ NASA - APOD (Imagen del Día)
+**Descripción:** Consulta de la imagen astronómica del día.
 
-### Codigo de la FIFA
-**![general_view](./docs/fifa2.png)**
+**Funcionamiento:** Petición GET al endpoint `apod` usando una fecha seleccionada.
 
-### Codigo del index
-**![general_view](./docs/index.png)**
+**Resultado:** Imagen **The Astrosphere of HD 61005** con su explicación científica.
 
-### Evidencia de las ramas
-**![general_view](./docs/ramales.png)**
+![general_view](./docs/nasaaa.png)
+
+---
+
+### 3️⃣ NASA - APOD Histórica
+**Descripción:** Consulta de imágenes astronómicas de fechas anteriores.
+
+**Funcionamiento:** Petición GET al endpoint `apod` con fecha específica.
+
+**Resultado:** Imagen **Reflections on Planet Earth** tomada desde la ISS.
+
+![general_view](./docs/nasa2.png)
+
+---
+
+### 4️⃣ Portal NASA
+**Descripción:** Interfaz para consultar imágenes APOD por fecha.
+
+**Funcionamiento:** El usuario selecciona una fecha y el sistema muestra la imagen correspondiente.
+
+![general_view](./docs/nasa3.png)
+
+---
+
+### 5️⃣ INEGI - Dashboard
+**Descripción:** Panel con indicadores económicos y demográficos.
+
+**Funcionamiento:** Consumo de la API del **Banco de Indicadores Económicos (BIE)**.
+
+**Resultado:** Indicadores como **INPC, PIB y Desocupación** con gráfica histórica.
+
+![general_view](./docs/inegi3.png)
+
+---
+
+### 6️⃣ INEGI - Consulta de Indicadores
+**Descripción:** Búsqueda de indicadores mediante ID.
+
+**Funcionamiento:** Petición GET al endpoint del indicador en la API del INEGI.
+
+**Resultado:** Datos como **población total, inflación y PIB**.
+
+![general_view](./docs/inegi.png)
+
+---
+
+### 7️⃣ INEGI - Consulta por ID
+**Descripción:** Consulta directa de indicadores específicos.
+
+**Funcionamiento:** El usuario ingresa el ID y el sistema obtiene los datos desde la API.
+
+![general_view](./docs/inegi2.png)
+
+---
+
+### 8️⃣ FIFA - Dashboard de Liga
+**Descripción:** Visualización de la tabla de posiciones de **La Liga**.
+
+**Funcionamiento:** Consumo de API de fútbol para mostrar equipos y puntos.
+
+![general_view](./docs/fifa.png)
+
+---
+
+### 9️⃣ FIFA - Detalles de Equipo
+**Descripción:** Información de un equipo seleccionado.
+
+**Funcionamiento:** Consulta de datos del equipo y su plantilla de jugadores.
+
+**Resultado:** Información del **FC Barcelona**.
+
+![general_view](./docs/fifa2.png)
+
+---
+
+### 🔟 FIFA - Detalles de Jugador
+**Descripción:** Información de un jugador específico.
+
+**Funcionamiento:** Petición al endpoint del jugador seleccionado.
+
+**Resultado:** Datos de **Lionel Messi** (posición, nacionalidad y nacimiento).
+
+![general_view](./docs/fifa3.png)
+
 
 ---
 
