@@ -130,8 +130,6 @@ Este sistema implementa una arquitectura **MVC (Modelo-Vista-Controlador)** dond
 
 ## Evidencias del funcionamiento
 
-## Evidencias del funcionamiento
-
 ### 1️⃣ Página Principal - Portal de Datos
 **Descripción:** Página inicial para acceder a los módulos de **NASA, FIFA e INEGI**.
 
